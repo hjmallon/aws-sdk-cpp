@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0.
 #
 
-cmake_minimum_required (VERSION 3.1)
+cmake_minimum_required (VERSION 3.13) # Need CMP0079 NEW
 if(POLICY CMP0056)
     cmake_policy(SET CMP0056 NEW) # CMP0056: Honor link flags in try_compile() source-file signature. Introduced in 3.2
 endif()
@@ -129,6 +129,12 @@ set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_OBJECTS 1)
 set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 1)
 set(CMAKE_CXX_RESPONSE_FILE_LINK_FLAG "@")
 
+include("cmake/HunterGate.cmake")
+HunterGate(
+    URL "https://github.com/cpp-pm/hunter/archive/v0.23.314.tar.gz"
+    SHA1 "95c47c92f68edb091b5d6d18924baabe02a6962a"
+)
+
 if(COMMAND apply_pre_project_platform_settings)
     apply_pre_project_platform_settings()
 endif()
@@ -195,6 +201,8 @@ if (BUILD_DEPS)
     endif()
     set(CRT_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
     add_subdirectory(crt/aws-crt-cpp)
+    find_package(Threads)
+    target_link_libraries(aws-c-cal PRIVATE Threads::Threads) # HACK - since I don't want to fork the submodules
     set(BUILD_TESTING ${BUILD_TESTING_PREV})
     if (ENABLE_OPENSSL_ENCRYPTION)
         set(BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS_PREV})
