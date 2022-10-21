@@ -131,8 +131,8 @@ set(CMAKE_CXX_RESPONSE_FILE_LINK_FLAG "@")
 
 include("cmake/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/cpp-pm/hunter/archive/v0.23.314.tar.gz"
-    SHA1 "95c47c92f68edb091b5d6d18924baabe02a6962a"
+    URL "https://github.com/cpp-pm/hunter/archive/v0.24.7.tar.gz"
+    SHA1 "908ddcb223f25fa155315baae64ce0ab48a38bf7"
 )
 
 if(COMMAND apply_pre_project_platform_settings)

@@ -30,6 +30,28 @@ if (TARGET crypto OR TARGET AWS::crypto)
     message(STATUS "crypto Include Dir: ${crypto_INCLUDE_DIR}")
     set(CRYPTO_FOUND true)
     set(crypto_FOUND true)
+
+elseif(TARGET OpenSSL::Crypto)
+    set(CRYPTO_FOUND true)
+    set(crypto_FOUND true)
+
+    get_target_property(crypto_INCLUDE_DIR OpenSSL::Crypto INTERFACE_INCLUDE_DIRECTORIES)
+    get_target_property(crypto_LIBRARY OpenSSL::Crypto IMPORTED_LOCATION)
+
+    message(STATUS "LibCrypto from OpenSSL::Crypto")
+    message(STATUS "LibCrypto Include Dir: ${crypto_INCLUDE_DIR}")
+    message(STATUS "LibCrypto Lib: ${crypto_LIBRARY}")
+
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
+    add_library(AWS::crypto UNKNOWN IMPORTED)
+    set_target_properties(AWS::crypto PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${crypto_INCLUDE_DIR}")
+    set_target_properties(AWS::crypto PROPERTIES
+            IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+            IMPORTED_LOCATION "${crypto_LIBRARY}")
+    add_dependencies(AWS::crypto Threads::Threads)
+
 else()
     find_path(crypto_INCLUDE_DIR
         NAMES openssl/crypto.h
