@@ -147,6 +147,12 @@ if (LEGACY_BUILD)
     set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 1)
     set(CMAKE_CXX_RESPONSE_FILE_LINK_FLAG "@")
 
+    include("cmake/HunterGate.cmake")
+    HunterGate(
+        URL "https://github.com/cpp-pm/hunter/archive/v0.24.7.tar.gz"
+        SHA1 "908ddcb223f25fa155315baae64ce0ab48a38bf7"
+    )
+
     if (COMMAND apply_pre_project_platform_settings)
         apply_pre_project_platform_settings()
     endif ()
@@ -237,6 +243,8 @@ if (LEGACY_BUILD)
         endif ()
         set(CRT_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
         add_subdirectory(crt/aws-crt-cpp)
+        find_package(Threads)
+        target_link_libraries(aws-c-cal PRIVATE Threads::Threads) # HACK - since I don't want to fork the submodules
         set(BUILD_TESTING ${BUILD_TESTING_PREV})
         if (ENABLE_OPENSSL_ENCRYPTION)
             set(BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS_PREV})
