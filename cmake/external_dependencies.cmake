@@ -6,7 +6,8 @@ endif()
 
 # Request Compression dependencies
 if (ENABLE_ZLIB_REQUEST_COMPRESSION)
-    find_package(ZLIB REQUIRED)
+    hunter_add_package(ZLIB)
+    find_package(ZLIB CONFIG REQUIRED)
 endif()
 
 

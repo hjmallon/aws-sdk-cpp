@@ -177,7 +177,8 @@ if (LEGACY_BUILD)
 
     # ENABLE_ZLIB_REQUEST_COMPRESSION should be ON by default if ZLIB is available
     if(ENABLE_ZLIB_REQUEST_COMPRESSION)
-        find_package(ZLIB QUIET)
+        hunter_add_package(ZLIB)
+        find_package(ZLIB CONFIG QUIET)
         if ( NOT ZLIB_FOUND)
             set(ENABLE_ZLIB_REQUEST_COMPRESSION
                     OFF CACHE BOOL
