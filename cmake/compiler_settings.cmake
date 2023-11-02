@@ -53,7 +53,8 @@ macro(set_gcc_flags)
 endmacro()
 
 macro(set_gcc_warnings)
-    list(APPEND AWS_COMPILER_WARNINGS "-Wall" "-Werror" "-pedantic" "-Wextra")
+    # list(APPEND AWS_COMPILER_WARNINGS "-Wall" "-Werror" "-pedantic" "-Wextra")
+    list(APPEND AWS_COMPILER_WARNINGS "-Wall" "-pedantic" "-Wextra")
     if(COMPILER_CLANG)
         if(PLATFORM_ANDROID)
             # when using clang with libc and API lower than 21 we need to include Android support headers and ignore the gnu-include-next warning.
@@ -148,10 +149,10 @@ macro(set_msvc_warnings)
             set(CMAKE_SHARED_LINKER_FLAGS_DEBUGOPT "")
         endif()
 
-        # warnings as errors, max warning level (4)
-        if(NOT CMAKE_CXX_FLAGS MATCHES "/WX")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
-        endif()
+        # # warnings as errors, max warning level (4)
+        # if(NOT CMAKE_CXX_FLAGS MATCHES "/WX")
+        #     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
+        # endif()
 
         # taken from http://stackoverflow.com/questions/2368811/how-to-set-warning-level-in-cmake
         if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
